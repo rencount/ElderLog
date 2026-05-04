@@ -1,0 +1,6 @@
+{
+  "name": "ElderLog",
+  "description": "An app for elderly people to chat and for their children to monitor them. Built with React, Express, Prisma, SQLite, and Gemini API.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}

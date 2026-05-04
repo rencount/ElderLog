@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String     @id @default(uuid())
+  role      String     // 'ELDER' or 'CHILD'
+  name      String
+  logs      LogEntry[]
+  medPlans  MedicationSchedule[]
+  createdAt DateTime   @default(now())
+}
+
+model MedicationSchedule {
+  id        String   @id @default(uuid())
+  userId    String
+  name      String
+  time      String   // "08:00", "12:00", etc
+  
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model MedicationLog {
+  id           String   @id @default(uuid())
+  userId       String
+  scheduleId   String
+  takenAt      DateTime @default(now())
+}
+
+model LogEntry {
+  id               String   @id @default(uuid())
+  userId           String
+  text             String   // original input
+  reply            String   // AI reply
+  medication_taken Boolean?
+  mood             String?  // 'good' | 'neutral' | 'bad'
+  symptoms         String?  // e.g. "leg pain, headache"
+  createdAt        DateTime @default(now())
+  
+  user             User     @relation(fields: [userId], references: [id])
+}
